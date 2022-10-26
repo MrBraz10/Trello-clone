@@ -9,6 +9,7 @@ gem "jbuilder"
 gem "importmap-rails"
 gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
+gem "pundit", "~> 2.2"
 gem "rails", "~> 7.0.4"
 gem "redis", "~> 4.0"
 gem "sassc-rails" # Use Sass to process CSS
@@ -60,3 +61,4 @@ end
 group :test do
   gem "shoulda-matchers", "~> 5.0"
 end
+

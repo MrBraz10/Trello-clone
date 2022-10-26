@@ -5,6 +5,11 @@ class BoardsController < ApplicationController
     @board = Board.new
   end
 
+  def edit
+    @board = Board.find(params[:id])
+    authorize @board
+  end
+
   def create
     @board = Board.new(board_params.merge(user: current_user))
 
