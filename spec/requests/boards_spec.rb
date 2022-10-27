@@ -15,11 +15,17 @@ RSpec.describe "Boards", type: :request do
     end
   end
 
-  describe "Get edit" do
+  describe "GET edit" do
     it "succeeds" do
       get edit_board_path(board)
       expect(response).to have_http_status(:success)
+    end
+  end
 
+  describe "GET show" do
+    it "succeeds" do
+      get board_path(board)
+      expect(response).to have_http_status(:success)
     end
   end
 
@@ -48,6 +54,44 @@ RSpec.describe "Boards", type: :request do
         end.not_to change { Board.count }
         expect(response).to have_http_status(:success)
       end
+    end
+  end
+
+  describe "PUT update" do
+    context "with valid params" do
+      it "updates the board and redirects" do
+        expect do
+          put board_path(board), params: {
+            board: {
+              name: "Updated Board"
+            }
+          }
+        end.to change { board.reload.name }.to("Updated Board")
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context "with invalid params" do
+      it "does not updates the board and redirects" do
+        expect do
+          put board_path(board), params: {
+            board: {
+              name: ""
+            }
+          }
+        end.not_to change { board.reload.name }
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    it "deletes the board record" do
+      board
+      expect do
+        delete board_path(board)
+      end.to change { Board.count }.by(-1)
+      expect(response).to have_http_status(:redirect)
     end
   end
 end
