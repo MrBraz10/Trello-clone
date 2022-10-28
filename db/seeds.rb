@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-user = User.create(email: "garip10@mail.ru", password: "passwod")
+user = User.create(email: "nekita10@mail.ru", password: "@d1q_N2T")
 
 5.times do |i|
   Board.create(user: user, name: "Board #{i + 1}")
