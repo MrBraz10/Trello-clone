@@ -1,6 +1,6 @@
 class ListSerializer
   include JSONAPI::Serializer
-  attributes :title, :class_list
+  attributes :title
 
   attribute :items do |object|
     ItemSerializer.new(object.items).serializable_hash

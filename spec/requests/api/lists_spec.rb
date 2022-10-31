@@ -19,7 +19,7 @@ RSpec.describe "Api::Lists", type: :request do
       expect(json_response.dig("data").size).to eq(3)
 
       json_response.dig("data").each do |list_data|
-        expect(list_data.dig("relationships", "items", "data").size).to eq(2)
+        expect(list_data.dig("attributes", "items", "data").size).to eq(2)
       end
     end
   end
