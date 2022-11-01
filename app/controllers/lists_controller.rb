@@ -5,6 +5,10 @@ class ListsController < ApplicationController
     @list = board.lists.new
   end
 
+  def edit
+    @list = board.lists.find(params[:id])
+  end
+
   def create
     @list = board.lists.new(list_params)
 

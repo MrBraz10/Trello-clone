@@ -6,9 +6,29 @@ export default class extends Controller {
     HEADERS = {'ACCEPT': 'application/json'};
     BACKGROUND_COLORS = ['bg-green-700', 'bg-blue-700', 'bg-red-700', 'bg-slate-700', 'bg-yellow-700']
 
+    getHeaderTitles() {
+    return Array.from(document.getElementsByClassName('kanban-title-board'));
+    }
+
+    cursorifyHeaderTitles() {
+        this.getHeaderTitles().forEach((headerTitle) => {
+            headerTitle.classList.add('cursor-pointer');
+        });
+    }
+
+    addLinkToHeaderTitles(boards) {
+        this.getHeaderTitles().forEach((headerTitle, index) => {
+            headerTitle.addEventListener('click', () => {
+                Turbo.visit(`${this.element.dataset.boardListsUrl}/${boards[index].id}/edit`);
+            });
+        });
+    }
+
     connect() {
         axios.get(this.element.dataset.apiUrl, {headers: this.HEADERS}).then((response) => {
             this.buildKanban(this.buildBoards(response['data']));
+            this.cursorifyHeaderTitles();
+            this.addLinkToHeaderTitles(this.buildBoards(response['data']));
         });
     }
 
@@ -43,6 +63,9 @@ export default class extends Controller {
             boards: boards,                                           // json of boards
             itemAddOptions: {
                 enabled: true
+            },
+            buttonClick: () => {
+                console.log('board click');
             }
         });
     }

@@ -2,7 +2,8 @@
   <div
     data-controller="board"
     class="mx-auto max-w-full"
-    data-api-url = " <%= api_board_lists_path(@board) %>"
+    data-api-url="<%= api_board_lists_path(@board) %>"
+    data-board-lists-url="<%= board_lists_path(@board) %>"
     id="board"
     style="overflow-x: scroll;"
   >
