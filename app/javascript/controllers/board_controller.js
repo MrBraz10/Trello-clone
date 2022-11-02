@@ -74,7 +74,8 @@ export default class extends Controller {
             return {
                 'id': get(item, 'id'),
                 'title': get(item, 'attributes.title'),
-                'class': this.buildClassList()
+                'class': this.buildClassList(),
+                'list-id': get(item, 'attributes.list_id'),
             }
         });
     }
@@ -111,6 +112,20 @@ export default class extends Controller {
             },
             dragendBoard: (el) => {
                 this.updateListPosition(el);
+            },
+            dropEl: (el, target, source, sibling) => {
+                const targetItems = Array.from(target.getElementsByClassName('kanban-item'));
+                const sourceItems = Array.from(source.getElementsByClassName('kanban-item'));
+
+                targetItems.forEach((item, index) => {
+                    item.dataset.position == index;
+                    item.dataset.listId = target.closest('.kanban-board').dataset.id;
+                });
+                sourceItems.forEach((item, index) => {
+                    item.dataset.position == index;
+                    item.dataset.listId = source.closest('.kanban-board').dataset.id;
+
+                });
             },
         });
     }
