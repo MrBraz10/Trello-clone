@@ -1,17 +1,16 @@
 import {Controller} from '@hotwired/stimulus';
 import axios from 'axios';
-import {get, map, sample} from 'lodash-es';
+import {get, map} from 'lodash-es';
 
 export default class extends Controller {
     HEADERS = {'ACCEPT': 'application/json'};
-    BACKGROUND_COLORS = ['bg-green-700', 'bg-blue-700', 'bg-red-700', 'bg-slate-700', 'bg-yellow-700']
 
     getHeaders() {
         return Array.from(document.getElementsByClassName('kanban-board-header'));
     }
 
     getHeaderTitles() {
-    return Array.from(document.getElementsByClassName('kanban-title-board'));
+        return Array.from(document.getElementsByClassName('kanban-title-board'));
     }
 
     cursorifyHeaderTitles() {
@@ -43,7 +42,7 @@ export default class extends Controller {
             console.log('button clicked with boardId: ', boardId);
 
             axios.delete(`${this.element.dataset.boardListsUrl}/${boardId}`, {
-              headers: this.HEADERS
+                headers: this.HEADERS
             }).then((_) => {
                 Turbo.visit(window.location.href);
             });
@@ -53,7 +52,7 @@ export default class extends Controller {
 
     addHeaderDeleteButtons(boards) {
         this.getHeaders().forEach((header, index) => {
-           header.appendChild(this.buildBoardDeleteButton(boards[index].id));
+            header.appendChild(this.buildBoardDeleteButton(boards[index].id));
         });
     }
 
@@ -67,7 +66,7 @@ export default class extends Controller {
     }
 
     buildClassList() {
-        return `text-white, ${sample(this.BACKGROUND_COLORS)}`;
+        return `text-white, bg-yellow-700`;
     }
 
     buildItems(items) {
@@ -91,6 +90,15 @@ export default class extends Controller {
         });
     }
 
+    updateListPosition(el) {
+        axios.put(`${this.element.dataset.listPositionsApiUrl}/${el.dataset.id}`, {
+            position: el.dataset.order - 1
+        }, {
+            headers: this.HEADERS
+        }).then(() => {
+        });
+    }
+
     buildKanban(boards) {
         new jKanban({
             element: `#${this.element.id}`,
@@ -98,21 +106,11 @@ export default class extends Controller {
             itemAddOptions: {
                 enabled: true
             },
-            buttonClick: () => {
-                console.log('board click');
+            buttonClick: (el, boardId) => {
+                Turbo.visit(`/lists/${boardId}/items/new`);
             },
             dragendBoard: (el) => {
-                console.log('dragendBoard.el', el);
-                console.log('board.id', el.dataset.id);
-                console.log('board.position', el.dataset.order - 1);
-
-                axios.put(`${this.element.dataset.apiUrl}/${el.dataset.id}`, {
-                    position: el.dataset.order - 1
-                    },{
-                    headers: this.HEADERS
-                }).then((response) => {
-                    console.log('response: ', response);
-                });
+                this.updateListPosition(el);
             },
         });
     }
