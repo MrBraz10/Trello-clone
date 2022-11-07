@@ -48,7 +48,7 @@
 
           <div class="flex">
             <div><%= link_to "Edit", "", class: "link", id: "item-edit-link" %></div>
-            <div><%= link_to "Delete", "", class: "link" %></div>
+            <div class="ml-4"><%= link_to "Delete", "", class: "link", style: "color-red", id: "item-delete-link", data: { method: :delete } %></div>
           </div>
         </div>
       </div>

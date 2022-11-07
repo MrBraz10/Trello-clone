@@ -81,7 +81,6 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  pending do
   describe "DELETE destroy" do
     it "deletes the board record" do
       list
@@ -90,6 +89,5 @@ RSpec.describe "Items", type: :request do
       end.to change { List.count }.by(-1)
       expect(response).to have_http_status(:success)
     end
-  end
   end
 end
