@@ -1,0 +1,40 @@
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-3xl">
+    <div class="bg-white mt-12 px-8 py-4 rounded-xl drop-shadow-lg">
+      <%= form_with url: board_board_users_path(@board), scope: nil, local: true, class: "space-y-8 divide-gray-200" do |f| %>
+        <div class="space-y-8 divide-y divide-gray-200" style="margin-top: 0">
+          <div>
+            <div class="mb-5">
+              <h3 class="text-lg font-medium leading-6 text-gray-900">Board Member List</h3>
+              <p class="mt-1 text-sm text-gray-600">This form add/removes board member.</p>
+            </div>
+            <fieldset>
+              <legend class="text-lg font-medium text-gray-900">Members</legend>
+              <div class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200" style="margin-top: 0">
+                <% User.find_each do |user| %>
+                  <div class="relative flex items-start py-4">
+                    <div class="min-w-0 flex-1 text-sm">
+                      <%= f.label :user_ids, class: "select-none font-medium text-gray-700" do %>
+                        <%= user.email %>
+                      <% end %>
+                    </div>
+                    <div class="ml-3 flex h-5 items-center">
+                      <%= f.check_box :user_ids, { class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500", multiple: true, checked: @board.members.include?(user), disabled: @board.user == user }, user.id %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <%= link_to "Cancel", root_path, class: "rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+            <%= f.submit "Assign Members", class: "cursor-pointer ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
