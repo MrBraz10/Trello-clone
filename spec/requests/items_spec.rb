@@ -4,6 +4,7 @@ RSpec.describe "Items", type: :request do
   let(:user) { create(:user) }
   let(:board) { create(:board, user: user) }
   let(:list) { create(:list, board: board) }
+  let(:item) { create(:item, list: list) }
 
   before do
     sign_in user
@@ -16,13 +17,11 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  pending do
   describe "GET edit" do
     it "succeeds" do
-      get edit_board_list_path(board, list)
+      get edit_list_item_path(list, item)
       expect(response).to have_http_status(:success)
     end
-  end
   end
 
   describe "POST create" do
@@ -54,17 +53,16 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  pending do
   describe "PUT update" do
     context "with valid params" do
       it "updates the board and redirects" do
         expect do
-          put board_list_path(board, list), params: {
-            list: {
-              title: "Updated List"
+          put list_items_path(list, item), params: {
+            item: {
+              title: "Updated Item"
             }
           }
-        end.to change { list.reload.title }.to("Updated List")
+        end.to change { item.reload.title }.to("Updated Item")
         expect(response).to have_http_status(:redirect)
       end
     end
@@ -72,16 +70,15 @@ RSpec.describe "Items", type: :request do
     context "with invalid params" do
       it "does not updates the board and redirects" do
         expect do
-          put board_list_path(board, list), params: {
-            list: {
+          put list_item_path(list, item), params: {
+            item: {
               title: ""
             }
           }
-        end.not_to change { list.reload.title }
+        end.not_to change { item.reload.title }
         expect(response).to have_http_status(:success)
       end
     end
-  end
   end
 
   pending do

@@ -7,9 +7,9 @@ class ItemsController < ApplicationController
     @item = list.items.new
   end
 
-  # def edit
-  #   @list = board.lists.find(params[:id])
-  # end
+  def edit
+    @item = list.items.find(params[:id])
+  end
 
   def create
     @item = list.items.new(item_params)
@@ -21,15 +21,15 @@ class ItemsController < ApplicationController
     end
   end
 
-  # def update
-  #   @list = board.lists.find(params[:id])
-  #
-  #   if @list.update(list_params)
-  #     redirect_to board_path(board)
-  #   else
-  #     render :edit
-  #   end
-  # end
+  def update
+    @item = list.items.find(params[:id])
+
+    if @item.update(item_params)
+      redirect_to board_path(list.board)
+    else
+      render :edit
+    end
+  end
 
   # def destroy
   #   @list = board.lists.find(params[:id])
