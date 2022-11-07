@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     resources :board_users, only: [:new, :create]
   end
 
+  resources :items do
+    resources :item_members, only: [:new, :create]
+  end
+
   resources :lists do
     resources :items
   end

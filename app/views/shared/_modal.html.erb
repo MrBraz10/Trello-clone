@@ -46,9 +46,18 @@
           <p class="font-bold tracking-wide">Description:</p>
           <p id="item-description tracking-wide" class="tracking-wide mb-5"></p>
 
-          <div class="flex">
+          <div class="flex mb-5">
             <div><%= link_to "Edit", "", class: "link", id: "item-edit-link" %></div>
-            <div class="ml-4"><%= link_to "Delete", "", class: "link", style: "color-red", id: "item-delete-link", data: { method: :delete } %></div>
+            <div class="ml-4"><%= link_to "Delete", "", class: "link", style: "color-red", id: "item-delete-link", data: { "turbo-method": :delete } %></div>
+          </div>
+
+          <div class="flex mb-5">
+            <div class="ml-4"><%= link_to "Assign Members to Card/Item", "", class: "link", style: "color-red", id: "item-assign-member-link" %></div>
+          </div>
+
+          <div>
+            <p class="text-lg tracking-wide font-bold mb-2">Members Assigned</p>
+            <ul id="item-members-list"></ul>
           </div>
         </div>
       </div>

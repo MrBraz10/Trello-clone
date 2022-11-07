@@ -144,7 +144,20 @@ export default class extends Controller {
         axios.get(`/api/items/${itemId}`, {}, { headers: this.HEADERS }).then((response) => {
             document.getElementById('item-title').textContent = get(response, 'data.data.attributes.title');
             document.getElementById('item-description').textContent = get(response, 'data.data.attributes.description');
-            document.getElementById('item-edit-link').href = `/lists/${get(response,  'data.data.attributes.list_id')}/items/${itemId}/edit`
+            document.getElementById('item-edit-link').href = `/lists/${get(response,  'data.data.attributes.list_id')}/items/${itemId}/edit`;
+            document.getElementById('item-assign-member-link').href = `/items/${get(response,  'data.data.id')}/item_members/new`;
+
+            const membersList =  map(get(response, 'data.data.attributes.members.data'), (memberData) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = memberData.attributes.email;
+                return listItem;
+            });
+
+            document.getElementById('item-members-list').innerHTML = null;
+            membersList.forEach((memberList) => {
+                document.getElementById('item-members-list').appendChild(memberList);
+            });
+
             document.getElementById('item-delete-link').addEventListener('click', (e) => {
                 e.preventDefault();
                 axios.delete(`/lists/${get(response,  'data.data.attributes.list_id')}/items/${itemId}`, {
