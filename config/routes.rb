@@ -20,5 +20,8 @@ Rails.application.routes.draw do
       resources :lists, only: :index, controller: "lists"
       resources :list_positions, only: [:index, :update], controller: "list_positions"
     end
+    put "item_positions", to: "item_positions#update"
+
+    resources :items, only: :show
   end
 end

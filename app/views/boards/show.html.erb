@@ -5,9 +5,11 @@
     data-api-url="<%= api_board_lists_path(@board) %>"
     data-list-positions-api-url="<%= api_board_list_positions_path(@board) %>"
     data-board-lists-url="<%= board_lists_path(@board) %>"
+    data-item-positions-api-url="<%= api_item_positions_path %>"
     id="board"
     style="overflow-x: scroll;"
   >
   </div>
 </div>
 
+<%= render "shared/modal" %>

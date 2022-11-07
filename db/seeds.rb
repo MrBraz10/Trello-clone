@@ -16,6 +16,6 @@ Board.find_each do |board|
   5.times{|i| List.create(board: board, title: "List #{i + 1}", position: i) }
 
   board.reload.lists.each do |list|
-    5.times { |i| Item.create(list: list, title: "Item #{i + 1}")}
+    5.times { |i| Item.create(list: list, title: "Item #{i + 1}", description: "Description for Item #{i + 1}")}
   end
 end

@@ -1,0 +1,52 @@
+<div
+  data-controller="modal"
+  id="modal-wrapper"
+  class="hidden relative z-10"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="hidden" id="show-modal-div" data-action="click->modal#showModal"></div>
+
+  <div
+    id="modal-backdrop"
+    class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    data-transition-enter="ease-out duration-300"
+    data-transition-enter-start="opacity-0"
+    data-transition-enter-end="opacity-100"
+    data-transition-leave="ease-in duration-200"
+    data-transition-leave-start="opacity-100"
+    data-transition-leave-end="opacity-0"
+  ></div>
+
+  <div class="fixed z-10 inset-0 overflow-y-auto">
+    <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+      <div
+        id="modal-panel"
+        class="hidden relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:p-0"
+        data-transition-enter="ease-out duration-300"
+        data-transition-enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        data-transition-enter-end="opacity-100 translate-y-0 sm:scale-100"
+        data-transition-leave="ease-in duration-200"
+        data-transition-leave-start="opacity-100 translate-y-0 sm:scale-100"
+        data-transition-leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+      >
+        <div class="flex mb-5">
+          <div class="flex-none cursor-pointer" data-modal-target="closeButton">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12 10.5v3.75m-9.303 3.376C1.83 19.126 2.914 21 4.645 21h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 4.88c-.866-1.501-3.032-1.501-3.898 0L2.697 17.626zM12 17.25h.007v.008H12v-.008z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-bold tracking-wide">Title:</p>
+          <p id="item-title tracking-wide" class="tracking-wide mb-5"></p>
+
+          <p class="font-bold tracking-wide">Description:</p>
+          <p id="item-description tracking-wide" class="tracking-wide mb-5"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

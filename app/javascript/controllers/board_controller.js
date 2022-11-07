@@ -100,12 +100,63 @@ export default class extends Controller {
         });
     }
 
+    buildItemData(items) {
+        return map(items, (item) => {
+            return {
+                id: item.dataset.eid,
+                position: item.dataset.position,
+                list_id: item.dataset.listId
+            }
+        });
+    }
+
+    itemPositioningApiCall(itemsData) {
+        axios.put(this.element.dataset.itemPositionsApiUrl, {
+            items: itemsData
+        }, {
+            headers: this.HEADERS
+        }).then(() => {
+        });
+    }
+
+    updateItemPositioning(target, source) {
+        const targetItems = Array.from(target.getElementsByClassName('kanban-item'));
+        const sourceItems = Array.from(source.getElementsByClassName('kanban-item'));
+
+        targetItems.forEach((item, index) => {
+            item.dataset.position == index;
+            item.dataset.listId = target.closest('.kanban-board').dataset.id;
+        });
+        sourceItems.forEach((item, index) => {
+            item.dataset.position == index;
+            item.dataset.listId = source.closest('.kanban-board').dataset.id;
+        });
+
+        this.itemPositioningApiCall(this.buildItemData(targetItems));
+        this.itemPositioningApiCall(this.buildItemData(sourceItems));
+    }
+
+    showItemModal() {
+        document.getElementById('show-modal-div').click();
+    }
+
+    populateItemInformation(itemId) {
+        axios.get(`/api/items/${itemId}`, {}, { headers: this.HEADERS }).then((response) => {
+            document.getElementById('item-title').textContent = get(response, 'data.data.attributes.title');
+            document.getElementById('item-description').textContent = get(response, 'data.data.attributes.description');
+        });
+    }
+
     buildKanban(boards) {
         new jKanban({
             element: `#${this.element.id}`,
             boards: boards,
             itemAddOptions: {
-                enabled: true
+                enabled: true,
+            },
+            click: (el) => {
+                this.showItemModal();
+                this.populateItemInformation(el.dataset.eid);
             },
             buttonClick: (el, boardId) => {
                 Turbo.visit(`/lists/${boardId}/items/new`);
@@ -114,18 +165,7 @@ export default class extends Controller {
                 this.updateListPosition(el);
             },
             dropEl: (el, target, source, sibling) => {
-                const targetItems = Array.from(target.getElementsByClassName('kanban-item'));
-                const sourceItems = Array.from(source.getElementsByClassName('kanban-item'));
-
-                targetItems.forEach((item, index) => {
-                    item.dataset.position == index;
-                    item.dataset.listId = target.closest('.kanban-board').dataset.id;
-                });
-                sourceItems.forEach((item, index) => {
-                    item.dataset.position == index;
-                    item.dataset.listId = source.closest('.kanban-board').dataset.id;
-
-                });
+                this.updateItemPositioning(target, source);
             },
         });
     }

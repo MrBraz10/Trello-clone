@@ -3,6 +3,6 @@ class ListSerializer
   attributes :title
 
   attribute :items do |object|
-    ItemSerializer.new(object.items).serializable_hash
+    ItemSerializer.new(object.items.order(position: :asc)).serializable_hash
     end
 end
